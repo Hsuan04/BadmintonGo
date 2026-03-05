@@ -1,3 +1,11 @@
+---
+name: Feature Request
+about: 用於 BadmintonGo 功能開發自檢
+title: '[Feature]: '
+labels: feature
+assignees: Lawrence
+---
+
 #  [Feature]: {在此輸入功能簡稱}
 
 ##  需求描述 (Description)
