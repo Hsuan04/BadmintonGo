@@ -1,0 +1,72 @@
+version: '3.8'
+
+services:
+  # PostgreSQL: 存放球友資料、場館資訊與報名紀錄
+  badmintongo-db:
+    image: postgres:15-alpine
+    container_name: badmintongo-db
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER:-admin}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-badminton123}
+      POSTGRES_DB: ${DB_NAME:-badmintongo}
+      TZ: Asia/Taipei # 確保資料庫時間與台灣本地時間一致，避免報名時間錯亂
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./infra-data/postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d badmintongo"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - badminton-network
+
+  # Redis: 核心技術組件。負責「高併發名額扣減」、「分散式鎖」與「候補隊列 ZSet」
+  badmintongo-redis:
+    image: redis:7.2-alpine
+    container_name: badmintongo-redis
+    restart: always
+    command: redis-server --save 60 1 --loglevel warning
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./infra-data/redis-data:/data
+    networks:
+      - badminton-network
+
+  # RabbitMQ: 實現服務解耦。當報名成功時發送訊息，由 Notification 服務異步處理通知
+  badmintongo-mq:
+    image: rabbitmq:3.12-management-alpine
+    container_name: badmintongo-mq
+    restart: always
+    environment:
+      RABBITMQ_DEFAULT_USER: ${MQ_USER:-guest}
+      RABBITMQ_DEFAULT_PASS: ${MQ_PASSWORD:-guest}
+    ports:
+      - "5672:5672"   # 訊息傳輸 Port
+      - "15672:15672" # 管理後台界面
+    networks:
+      - badminton-network
+
+  # MinIO: S3 兼容存儲。負責存放場館照片，避免將大型二進位檔案存入資料庫，提升查詢效能
+  badmintongo-minio:
+    image: minio/minio
+    container_name: badmintongo-minio
+    restart: always
+    environment:
+      MINIO_ROOT_USER: ${MINIO_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD:-minioadmin}
+    ports:
+      - "9000:9000" # API Port
+      - "9001:9001" # Console 管理介面
+    volumes:
+      - ./infra-data/minio-data:/data
+    command: server /data --console-address ":9001"
+    networks:
+      - badminton-network
+
+networks:
+  badminton-network:
+    driver: bridge
