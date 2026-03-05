@@ -1,5 +1,38 @@
-target/
-.idea/
-*.iml
-infra-data/
-.DS_Store
+# --- Java / Maven ---
+target/              # file after package
+*.jar
+*.war
+*.ear
+
+# --- IntelliJ IDEA / IDE ---
+.idea/               # personal develop config
+*.iml                # model config
+out/
+gen/
+.classpath
+.project
+.settings/
+
+# --- Frontend (Next.js / Node.js) ---
+node_modules/        # fronted package
+.next/               # Next.js
+out/
+build/
+.env*.local
+
+# --- Infrastructure / Databases ---
+infra-data/          # personal docker data save point
+postgres-data/
+minio-data/
+redis-data/
+
+# --- OS Generated Files ---
+.DS_Store            # macOS
+.DS_Store?
+._*
+Thumbs.db            # Windows
+ehthumbs.db
+desktop.ini
+
+# --- Log files ---
+*.log                # log
