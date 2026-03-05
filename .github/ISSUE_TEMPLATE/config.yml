@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Feature Request
+    url: https://github.com/Hsuan04/BadmintonGo/issues/new?template=feature_request.md
+    about: 用於 BadmintonGo 功能開發自檢
