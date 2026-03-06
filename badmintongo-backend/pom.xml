@@ -11,11 +11,11 @@
     </parent>
 
     <groupId>com.badmintongo</groupId>
-    <artifactId>badmintongo-parent</artifactId>
+    <artifactId>badmintongo-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>badmintongo-parent</name>
+    <name>badmintongo-backend</name>
     <description>BadmintonGo Platform Parent Project</description>
 
     <!-- 子專案列表 -->
