@@ -20,7 +20,7 @@
 
     <!-- 子專案列表 -->
     <modules>
-<!--        <module>badmintongo-common</module>-->
+        <module>common-service</module>
 <!--        <module>badmintongo-gateway</module>-->
 <!--        <module>badmintongo-auth</module>-->
 <!--        <module>badmintongo-court</module>-->
