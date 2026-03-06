@@ -5,12 +5,14 @@ services:
   badmintongo-db:
     image: postgres:15-alpine
     container_name: badmintongo-db
-    restart: always
     environment:
-      POSTGRES_USER: ${DB_USER:-admin}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-badminton123}
+      # 將資料庫名稱改為 badmintongo
       POSTGRES_DB: ${DB_NAME:-badmintongo}
-      TZ: Asia/Taipei # 確保資料庫時間與台灣本地時間一致，避免報名時間錯亂
+      # 將使用者帳號改為 test
+      POSTGRES_USER: ${DB_USER:-test}
+      # 將密碼改為 test
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-test}
+      TZ: Asia/Taipei
     ports:
       - "5432:5432"
     volumes:
@@ -42,8 +44,8 @@ services:
     container_name: badmintongo-mq
     restart: always
     environment:
-      RABBITMQ_DEFAULT_USER: ${MQ_USER:-guest}
-      RABBITMQ_DEFAULT_PASS: ${MQ_PASSWORD:-guest}
+      RABBITMQ_DEFAULT_USER: ${MQ_USER:-test}
+      RABBITMQ_DEFAULT_PASS: ${MQ_PASSWORD:-test}
     ports:
       - "5672:5672"   # 訊息傳輸 Port
       - "15672:15672" # 管理後台界面
@@ -56,8 +58,8 @@ services:
     container_name: badmintongo-minio
     restart: always
     environment:
-      MINIO_ROOT_USER: ${MINIO_USER:-minioadmin}
-      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD:-minioadmin}
+      MINIO_ROOT_USER: ${MINIO_USER:-test}
+      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD:-test}
     ports:
       - "9000:9000" # API Port
       - "9001:9001" # Console 管理介面

@@ -1,13 +1,13 @@
 server:
-  port: 8080
+  port: 8082
 
 spring:
   application:
-    name: court-service-app
+    name: court-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/court_db
-    username: ${DB_USER:test}
-    password: ${DB_PASSWORD:test}
+    url: jdbc:postgresql://localhost:5432/badmintongo
+    username: test
+    password: test
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
