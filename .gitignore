@@ -1,38 +1,49 @@
 # --- Java / Maven ---
-target/              # file after package
+**/target/
 *.jar
 *.war
 *.ear
+*.zip
+*.tar.gz
 
 # --- IntelliJ IDEA / IDE ---
-.idea/               # personal develop config
-*.iml                # model config
+**/.idea/
+*.iml
 out/
 gen/
 .classpath
 .project
 .settings/
+*.ipr
+*.iws
 
 # --- Frontend (Next.js / Node.js) ---
-node_modules/        # fronted package
-.next/               # Next.js
+**/node_modules/
+.next/
 out/
 build/
 .env*.local
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
 # --- Infrastructure / Databases ---
-infra-data/          # personal docker data save point
+# 忽略 Docker 掛載的資料路徑
+infra-data/
 postgres-data/
 minio-data/
 redis-data/
+**/data/
 
 # --- OS Generated Files ---
-.DS_Store            # macOS
-.DS_Store?
-._*
-Thumbs.db            # Windows
+**/.DS_Store
+**/.DS_Store?
+**/._*
+Thumbs.db
 ehthumbs.db
 desktop.ini
 
 # --- Log files ---
-*.log                # log
+**/logs/
+*.log
