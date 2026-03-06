@@ -21,11 +21,11 @@
     <!-- 子專案列表 -->
     <modules>
         <module>common-service</module>
-<!--        <module>badmintongo-gateway</module>-->
-<!--        <module>badmintongo-auth</module>-->
-<!--        <module>badmintongo-court</module>-->
-<!--        <module>badmintongo-session</module>-->
-<!--        <module>badmintongo-notification</module>-->
+<!--        <module>gateway-service</module>-->
+<!--        <module>auth-service</module>-->
+        <module>court-service</module>
+<!--        <module>session-service</module>-->
+<!--        <module>notification-service</module>-->
     </modules>
 
     <properties>
