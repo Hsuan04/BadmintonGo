@@ -1,5 +1,5 @@
 ---
-name: 🚀 Feature Request
+name: Feature Request
 about: 用於 BadmintonGo 新功能提案與需求定義
 title: '[Feature]: '
 labels: feature
