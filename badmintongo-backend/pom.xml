@@ -53,6 +53,13 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
+
+        <!-- Redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <version>3.3.5</version>
+        </dependency>
     </dependencies>
 
     <!-- 定義子模組引入的 dependency 版本 -->
@@ -67,12 +74,6 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- Redis -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-data-redis</artifactId>
-            </dependency>
-
             <!-- PostgreSQL -->
             <dependency>
                 <groupId>org.postgresql</groupId>
@@ -81,16 +82,16 @@
             </dependency>
 
             <!-- Flyway(Database Migration Tool) - PostgreSQL -->
-            <dependency>
-                <groupId>org.flywaydb</groupId>
-                <artifactId>flyway-core</artifactId>
-                <version>10.10.0</version>
-            </dependency>
-            <dependency>
-                <groupId>org.flywaydb</groupId>
-                <artifactId>flyway-database-postgresql</artifactId>
-                <version>10.10.0</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.flywaydb</groupId>-->
+<!--                <artifactId>flyway-core</artifactId>-->
+<!--                <version>10.10.0</version>-->
+<!--            </dependency>-->
+<!--            <dependency>-->
+<!--                <groupId>org.flywaydb</groupId>-->
+<!--                <artifactId>flyway-database-postgresql</artifactId>-->
+<!--                <version>10.10.0</version>-->
+<!--            </dependency>-->
 
             <!-- Amazon - S3(Simple Storage Service) -->
             <dependency>

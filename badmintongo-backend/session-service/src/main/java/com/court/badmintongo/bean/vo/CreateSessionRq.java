@@ -1,4 +1,4 @@
-package com.badmintongo.bean.vo;
+package com.court.badmintongo.bean.vo;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
@@ -11,6 +11,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Range;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 /**
  * 新增臨打場次請求參數
  */
@@ -21,30 +25,31 @@ import org.hibernate.validator.constraints.Range;
 @Schema(description = "新增臨打場次請求參數")
 public class CreateSessionRq {
 
-
     @Schema(description = "關聯場地 ID", example = "1")
     @NotNull(message = "場地 ID 不能為空")
-    private Integer courtId;
+    private String courtId;
+
+    @Schema(description = "場地名稱", example = "內湖運動中心")
+    @NotNull(message = "場地名稱不能為空")
+    private String courtName;
 
     @Schema(description = "臨打日期 (格式: yyyy-MM-dd)", example = "2026-03-10")
-    @NotBlank(message = "臨打日期不能為空")
-    @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "日期格式必須為 yyyy-MM-dd")
-    private String sessionDate;
+    private LocalDate sessionDate;
 
     @Schema(description = "開始時間 (格式: HH:mm:ss)", example = "18:00:00")
-    @NotBlank(message = "開始時間不能為空")
-    @Pattern(regexp = "^([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)$", message = "時間格式必須為 HH:mm:ss")
-    private String startTime;
+    private LocalTime startTime;
 
     @Schema(description = "結束時間 (格式: HH:mm:ss)", example = "20:00:00")
-    @NotBlank(message = "結束時間不能為空")
-    @Pattern(regexp = "^([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)$", message = "時間格式必須為 HH:mm:ss")
-    private String endTime;
+    private LocalTime endTime;
 
     @Schema(description = "開放臨打人數", example = "20")
     @NotNull(message = "開放人數不能為空")
     @Min(value = 1, message = "開放人數至少 1 人")
     private Integer maxParticipants;
+
+    @Schema(description = "臨打場次狀態", example = "1")
+    @NotNull(message = "臨打場次狀態不能為空")
+    private Integer status;
 
     @Schema(description = "臨打說明", example = "新手友善場，有專業教練排點")
     private String description;
@@ -65,4 +70,5 @@ public class CreateSessionRq {
     @Schema(description = "臨打負責人名稱", example = "Lawrence")
     @NotBlank(message = "負責人不能為空")
     private String organizer;
+
 }
