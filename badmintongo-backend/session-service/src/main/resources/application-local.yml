@@ -1,0 +1,41 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: session-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/badmintongo
+    username: ${DB_USER:test}
+    password: ${DB_PASSWORD:test}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+    open-in-view: false
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:} # 如果本地沒設密碼就留空
+      database: 0
+      lettuce:
+        pool:
+          max-active: 10   # 最大連接數，應付報名高峰
+          max-idle: 5      # 最大空閒連接
+          min-idle: 1      # 最小空閒連接
+          max-wait: 2000ms # 連接池耗盡時等待時間
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+knife4j:
+  enable: true

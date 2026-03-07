@@ -9,7 +9,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>court-service</artifactId>
+    <artifactId>session-service</artifactId>
 
     <dependencies>
         <!-- common-service(自定義共用服務) -->
