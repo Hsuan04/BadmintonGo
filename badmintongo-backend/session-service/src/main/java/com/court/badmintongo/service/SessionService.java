@@ -63,7 +63,6 @@ public class SessionService {
         metaData.put("maxParticipants", String.valueOf(redisMeta.maxParticipants()));           //Redis設定session最大報名人數
         metaData.put("currentParticipants", String.valueOf(redisMeta.currentParticipants()));   //創建時，session 已經報名人數預設為0
         metaData.put("status", String.valueOf(redisMeta.status()));                             //session 狀態
-        //todo test
         metaData.put("createdAt", redisMeta.createdAt());
         //save to redis
         redisTemplate.opsForHash().putAll(metaKey, metaData);
@@ -73,15 +72,13 @@ public class SessionService {
         LocalDateTime endOfDay = po.getSessionDate().atTime(LocalTime.MAX);
         long secondsUntilMidnight = Duration.between(LocalDateTime.now(), endOfDay).getSeconds();  // 2. 計算從「現在」到「當天深夜」還有多少秒
         // 3. 設定 Redis TTL
-//        if (secondsUntilMidnight > 0) {
-//            // 讓這筆資料在今天過完後自動消失
-//            redisTemplate.expire(metaKey, Duration.ofSeconds(secondsUntilMidnight));
-//        } else {
-//            // 如果現在已經是深夜（例如 23:59:59 以後才建立），設定 1 小時後過期作為保險
-//            redisTemplate.expire(metaKey, Duration.ofHours(1));
-//        }
-        //todo test
-        redisTemplate.expire(metaKey, Duration.ofSeconds(30));
+        if (secondsUntilMidnight > 0) {
+            // 讓這筆資料在今天過完後自動消失
+            redisTemplate.expire(metaKey, Duration.ofSeconds(secondsUntilMidnight));
+        } else {
+            // 如果現在已經是深夜（例如 23:59:59 以後才建立），設定 1 小時後過期作為保險
+            redisTemplate.expire(metaKey, Duration.ofHours(1));
+        }
 
         return sessionMapper.toRs(savedPo);
     }
