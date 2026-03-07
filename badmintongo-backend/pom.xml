@@ -24,7 +24,7 @@
 <!--        <module>gateway-service</module>-->
 <!--        <module>auth-service</module>-->
         <module>court-service</module>
-<!--        <module>session-service</module>-->
+        <module>session-service</module>
 <!--        <module>notification-service</module>-->
     </modules>
 
