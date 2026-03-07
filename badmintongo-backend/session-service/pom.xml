@@ -12,32 +12,38 @@
     <artifactId>session-service</artifactId>
 
     <dependencies>
+        <!-- common-service(自定義共用服務) -->
         <dependency>
-            <groupId>com.court</groupId>
-            <artifactId>court-common</artifactId>
+            <groupId>com.badmintongo</groupId>
+            <artifactId>common-service</artifactId>
             <version>${project.version}</version>
         </dependency>
+
+        <!-- springboot jpa -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-            <scope>runtime</scope>
-        </dependency>
+
+        <!-- springboot jpa -->
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-core</artifactId>
         </dependency>
+
+        <!-- Flyway -->
         <dependency>
             <groupId>org.flywaydb</groupId>
             <artifactId>flyway-database-postgresql</artifactId>
         </dependency>
+
+        <!-- PostgreSQL -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
         </dependency>
+
+        <!-- MapStruct -->
         <dependency>
             <groupId>org.mapstruct</groupId>
             <artifactId>mapstruct</artifactId>

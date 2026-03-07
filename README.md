@@ -64,7 +64,8 @@ BadmintonGo/
 │   ├── auth-service    [8081]      # Auth Service: Identity Management & JWT Provider
 │   ├── court-service   [8082]      # Venue Service: Court Info & S3/MinIO Assets
 │   ├── session-service [8083]      # Session Service: Matchmaking & Redis-based Waitlist
-│   ├── notification-service [8084] # Notify Service: Async Messaging (RabbitMQ/Email)
+│   ├── registration-service [8084]      # Enrollment Service: Player Registration & Redis-based Waitlist
+│   ├── notification-service [8085] # Notify Service: Async Messaging (RabbitMQ/Email)
 │   ├── common-service              # Common Module: Shared POJOs, DTOs & Utils
 │   └── docker-compose.yml              # Infra Orchestration (Postgres, Redis, RabbitMQ)
 ├── badmintongo-frontend    [3000]      # Next.js Application: Responsive Web Interface
