@@ -11,21 +11,21 @@
     </parent>
 
     <groupId>com.badmintongo</groupId>
-    <artifactId>badmintongo-parent</artifactId>
+    <artifactId>badmintongo-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>badmintongo-parent</name>
+    <name>badmintongo-backend</name>
     <description>BadmintonGo Platform Parent Project</description>
 
     <!-- 子專案列表 -->
     <modules>
-<!--        <module>badmintongo-common</module>-->
-<!--        <module>badmintongo-gateway</module>-->
-<!--        <module>badmintongo-auth</module>-->
-<!--        <module>badmintongo-court</module>-->
-<!--        <module>badmintongo-session</module>-->
-<!--        <module>badmintongo-notification</module>-->
+        <module>common-service</module>
+<!--        <module>gateway-service</module>-->
+<!--        <module>auth-service</module>-->
+        <module>court-service</module>
+<!--        <module>session-service</module>-->
+<!--        <module>notification-service</module>-->
     </modules>
 
     <properties>

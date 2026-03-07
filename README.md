@@ -48,17 +48,24 @@ This project utilizes a **Monorepo** structure, demonstrating proficiency in ful
 
 ---
 
+### How to start the backend service
+
+1. **Docker**:
+   start:"docker-compose up -d"
+   shutdown:"docker-compose down -v"
+---
+
 ### 📂 Project Structure
 
 ```text
 BadmintonGo/
 ├── badmintongo-backend/                # Parent Maven Project (Multi-module)
-│   ├── badmintongo-gateway [8080]      # API Gateway: Routing, Rate Limiting & Security
-│   ├── badmintongo-auth    [8081]      # Auth Service: Identity Management & JWT Provider
-│   ├── badmintongo-court   [8082]      # Venue Service: Court Info & S3/MinIO Assets
-│   ├── badmintongo-session [8083]      # Session Service: Matchmaking & Redis-based Waitlist
-│   ├── badmintongo-notification [8084] # Notify Service: Async Messaging (RabbitMQ/Email)
-│   ├── badmintongo-common              # Common Module: Shared POJOs, DTOs & Utils
+│   ├── gateway-service [8080]      # API Gateway: Routing, Rate Limiting & Security
+│   ├── auth-service    [8081]      # Auth Service: Identity Management & JWT Provider
+│   ├── court-service   [8082]      # Venue Service: Court Info & S3/MinIO Assets
+│   ├── session-service [8083]      # Session Service: Matchmaking & Redis-based Waitlist
+│   ├── notification-service [8084] # Notify Service: Async Messaging (RabbitMQ/Email)
+│   ├── common-service              # Common Module: Shared POJOs, DTOs & Utils
 │   └── docker-compose.yml              # Infra Orchestration (Postgres, Redis, RabbitMQ)
 ├── badmintongo-frontend    [3000]      # Next.js Application: Responsive Web Interface
 └── tests/jmeter/                       # Performance Suite: Stress & Concurrency Tests
