@@ -1,4 +1,4 @@
-package com.badmintongo.enums;
+package com.court.badmintongo.enums;
 
 import com.badmintongo.exception.IReturnCode;
 import lombok.AllArgsConstructor;

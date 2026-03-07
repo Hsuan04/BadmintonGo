@@ -1,6 +1,6 @@
-package com.badmintongo.repository;
+package com.court.badmintongo.repository;
 
-import com.badmintongo.bean.po.SessionInfoPo;
+import com.court.badmintongo.bean.po.SessionInfoPo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface SessionRepository extends JpaRepository<SessionInfoPo, Long>, JpaSpecificationExecutor<SessionInfoPo> {
+public interface SessionRepository extends JpaRepository<SessionInfoPo, String>, JpaSpecificationExecutor<SessionInfoPo> {
 
     /**
      * 根據日期查詢所有臨打場次
@@ -21,7 +21,7 @@ public interface SessionRepository extends JpaRepository<SessionInfoPo, Long>, J
     /**
      * 根據場地 ID 查詢該場地的所有歷史臨打紀錄
      */
-    List<SessionInfoPo> findByCourtIdOrderBySessionDateDesc(Integer courtId);
+    List<SessionInfoPo> findByCourtIdOrderBySessionDateDesc(String courtId);
 
     /**
      * 核心查詢：根據用戶程度篩選適合的場次
