@@ -18,34 +18,34 @@ import lombok.NoArgsConstructor;
 @Schema(description = "玩家報名請求參數")
 public class CreateRegistrationRq {
 
-    @Schema(description = "場次 ID (對應特定日期的臨打時段)", example = "101")
-    @NotNull(message = "場次 ID 不能為空")
-    private Integer sessionId;
+    @Schema(description = "場次 ID (TSID)", example = "0PPVC311QWZ4N")
+    @NotBlank(message = "場次 ID 不能為空")
+    private String sessionId;
 
     @Schema(description = "報名者身分", example = "MEMBER", allowableValues = {"MEMBER", "GUEST"})
     @NotBlank(message = "身分類型不能為空")
     private String userType;
 
-    @Schema(description = "會員 ID (若為訪客則帶 null)", example = "50")
-    private Long userId;
+    @Schema(description = "會員 ID (若為訪客則可不帶)", example = "123456789")
+    private String userId; // 會員必填，訪客選填
 
     @Schema(description = "報名者姓名", example = "Lawrence")
     @NotBlank(message = "姓名不能為空")
-    private String name;
+    private String userName;
 
     @Schema(description = "性別", example = "MALE", allowableValues = {"MALE", "FEMALE", "OTHER"})
     @NotBlank(message = "性別不能為空")
     private String gender;
 
-    @Schema(description = "報名者姓名", example = "5")
-    @NotBlank(message = "程度分級不能為空")
+    @Schema(description = "程度分級", example = "5") // 修正了原本註解寫成姓名的問題
+    @NotNull(message = "程度分級不能為空")
     private Integer skillLevel;
 
-    @Schema(description = "聯絡方式 (LINE ID 或手機)", example = "Line")
-    @NotBlank(message = "聯絡方式不能為空")
+    @Schema(description = "聯絡方式類型", example = "LINE")
+    @NotBlank(message = "聯絡方式類型不能為空")
     private String contactType;
 
-    @Schema(description = "聯絡資訊", example = "line_id_123")
+    @Schema(description = "聯絡資訊 (LINE ID 或手機號碼)", example = "line_id_123")
     @NotBlank(message = "聯絡資訊不能為空")
     private String contactInfo;
 }

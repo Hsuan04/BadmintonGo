@@ -19,19 +19,19 @@ public class RegistrationInfoPo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id;
 
     @Column(nullable = false)
-    private Long sessionId;
+    private String sessionId;
 
     @Column
-    private Long userId;
+    private String userId;
 
     @Column(nullable = false)
-    private String userType; // MEMBER, GUEST
+    private String userType; // MEMBER, GUEST, ADMIN
 
     @Column(nullable = false)
-    private String name;
+    private String userName;
 
     @Column(nullable = false)
     private String gender;
@@ -40,16 +40,16 @@ public class RegistrationInfoPo {
     private Integer skillLevel;
 
     @Column(nullable = false)
-    private String contactType; // Phone 或 LINE
+    private String contactType;   // Phone 或 LINE
 
     @Column(nullable = false)
-    private String contactInfo;
+    private String contactInfo;   // 0912345678 or lineID.000
 
     @Column(nullable = false)
-    private String status;
+    private Integer status;      // 0:備取 , 1:正取
 
     @Column(nullable = false)
-    private Integer queueOrder;
+    private Integer queueOrder;  //報名排序
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;

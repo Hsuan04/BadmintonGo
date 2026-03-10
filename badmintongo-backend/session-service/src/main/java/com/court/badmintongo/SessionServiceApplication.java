@@ -1,6 +1,6 @@
 package com.court.badmintongo;
 
-import com.badmintongo.config.RedisConfig;
+import com.court.badmintongo.config.RedisConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Import;

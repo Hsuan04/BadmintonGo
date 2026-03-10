@@ -1,6 +1,6 @@
 package com.court.badmintongo.enums;
 
-import com.badmintongo.exception.IReturnCode;
+import com.court.badmintongo.exception.IReturnCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
