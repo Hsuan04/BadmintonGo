@@ -8,15 +8,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.Collection;
 import java.util.List;
 
 @Repository
 public interface SessionRepository extends JpaRepository<SessionInfoPo, String>, JpaSpecificationExecutor<SessionInfoPo> {
 
-    /**
-     * 根據日期查詢所有臨打場次
-     */
-    List<SessionInfoPo> findBySessionDateOrderByStartTimeAsc(LocalDate sessionDate);
+    List<SessionInfoPo> findBySessionIdIn(Collection<String> sessionIds);
 
     /**
      * 根據場地 ID 查詢該場地的所有歷史臨打紀錄

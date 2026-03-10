@@ -1,0 +1,6 @@
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %5p [%X{traceId}] --- [%thread] %-40.40logger{39} : %m%n"
+  level:
+    org.hibernate.SQL: DEBUG  # 顯示執行的 SQL 語句
+    org.hibernate.orm.jdbc.bind: TRACE  # 顯示 SQL 中的參數綁定 (問號 (?) 到底帶了什麼值)

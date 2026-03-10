@@ -1,17 +1,13 @@
 version: '3.8'
 
 services:
-  # PostgreSQL: 存放球友資料、場館資訊與報名紀錄
   badmintongo-db:
     image: postgres:15-alpine
     container_name: badmintongo-db
     environment:
-      # 將資料庫名稱改為 badmintongo
-      POSTGRES_DB: ${DB_NAME:-badmintongo}
-      # 將使用者帳號改為 test
-      POSTGRES_USER: ${DB_USER:-test}
-      # 將密碼改為 test
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-test}
+      POSTGRES_DB: ${DB_NAME:-badmintongo} # 資料庫名稱 badmintongo
+      POSTGRES_USER: ${DB_USER:-test}  # 資料庫user
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-test}  # 資料庫password
       TZ: Asia/Taipei
     ports:
       - "5432:5432"
@@ -24,8 +20,7 @@ services:
       retries: 5
     networks:
       - badminton-network
-
-  # Redis: 核心技術組件。負責「高併發名額扣減」、「分散式鎖」與「候補隊列 ZSet」
+  # Redi
   badmintongo-redis:
     image: redis:7.2-alpine
     container_name: badmintongo-redis
@@ -38,7 +33,7 @@ services:
     networks:
       - badminton-network
 
-  # RabbitMQ: 實現服務解耦。當報名成功時發送訊息，由 Notification 服務異步處理通知
+  # RabbitMQ
   badmintongo-mq:
     image: rabbitmq:3.12-management-alpine
     container_name: badmintongo-mq

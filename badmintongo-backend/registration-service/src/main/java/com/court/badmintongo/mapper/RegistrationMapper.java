@@ -12,8 +12,6 @@ public interface RegistrationMapper {
 
     // 1. 新增報名
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "status", constant = "WAITING")
-    @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
     RegistrationInfoPo toPo(CreateRegistrationRq rq);
 
     // 2. 更新報名
