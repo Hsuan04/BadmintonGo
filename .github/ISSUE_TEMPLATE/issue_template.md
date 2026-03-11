@@ -1,30 +1,24 @@
----
-name: Feature Request
-about: 用於 BadmintonGo 新功能提案與需求定義
-title: '[Feature]: '
-labels: feature
-assignees: Lawrence
----
-
-## 需求描述 (Description)
-- 
-
-## 預期行為 (Expectation)
-1.
-2.
-
-## 作業範圍 (Scope & Affected Projects)
-- [ ] badmintongo-backend (Module: )
-- [ ] badmintongo-frontend
-- [ ] infra (Docker/Database)
-
 ## 分支規劃 (Branching)
 - **Source Branch:** `develop`
-- **Target Feature Branch:** `feature_#`
 
-## 關鍵技術點 (Technical Notes)
-- 
+## 需求描述 (Description)
+> 說明為什麼要開發此功能？解決什麼痛點？
+-
+
+## 業務規格 (User Stories / Acceptance Criteria)
+> 這裡定義「DoD (Definition of Done)」的標準
+1. [ ] 會員可以在後台查詢到不同狀態的報名資料。
+
+## 系統設計 (System Design - Optional)
+- **Data Model:** (是否需新增欄位，如 system_config 的 type_code)
+- **Dependencies:** (是否依賴於 session-service 的新 API)
+
+## 作業範圍 (Scope)
+- [ ] badmintongo-backend (Module: )
+- [ ] badmintongo-frontend
+- [ ] infra (Docker/Database/Redis...)
+- [ ] Other ()
 
 ---
-**Reporter:** @Lawrence
+**Reporter:** {{user}}
 **Date:** {{ date }}
