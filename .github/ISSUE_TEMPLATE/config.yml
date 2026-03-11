@@ -1,5 +1,2 @@
 blank_issues_enabled: false
-contact_links:
-  - name: Issue Template
-    url: https://github.com/Hsuan04/BadmintonGo/issues/new?template=feature_request.md
-    about: 用於 BadmintonGo 功能開發議題模板
+contact_links: []

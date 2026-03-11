@@ -1,3 +1,10 @@
+---
+name: "功能需求提案 (Feature Proposal)"
+about: "用於 BadmintonGo 新功能設計與業務需求定義"
+title: "[FEAT]: "
+labels: feature
+---
+
 ## 分支規劃 (Branching)
 - **Source Branch:** `develop`
 
