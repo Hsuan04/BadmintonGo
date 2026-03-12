@@ -21,7 +21,7 @@ public class JwtUtils {
     /**
      * [密鑰設定]
      * 這是加密的靈魂。這串字串必須至少 32 個字元。
-     * 實務上建議從 application.yml 讀取，這裡先幫你寫死方便測試。
+     * 實務上建議從 application-local.yml 讀取，這裡先幫你寫死方便測試。
      */
     private static final String SECRET_KEY = "BadmintonGo_Lawrence_Secret_Key_For_2026_Project";
 

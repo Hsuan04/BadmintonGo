@@ -18,10 +18,9 @@ import java.time.LocalTime;
 public class CourtOpenInfoPo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;            // ID (SERIAL)
+    private String id;            // ID (SERIAL)
 
-    private Integer courtId;          // 關聯的場地 ID
+    private String courtId;          // 關聯的場地 ID
 
     private Integer dayOfWeek;     // 1-7 代表週一至週日
 

@@ -16,8 +16,8 @@ public class CourtImageController {
 
     // 使用 MultipartFormData 接收檔案
     @PostMapping(value = "/{id}/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> uploadImages(@PathVariable Integer id, @RequestPart("files") MultipartFile[] files) {
-        courtImageService.uploadCourtImages(id, files);
+    public ResponseEntity<String> uploadImages(@PathVariable String courtId, @RequestPart("files") MultipartFile[] files) {
+        courtImageService.uploadCourtImages(courtId, files);
         return ResponseEntity.ok("成功上傳 " + files.length + " 張圖片");
     }
 }

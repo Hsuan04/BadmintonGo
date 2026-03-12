@@ -18,14 +18,13 @@ import java.time.OffsetDateTime;
 public class CourtInfoPo {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer courtId;          // 場地 ID (BIGSERIAL)
+    private String courtId;        // 場地 ID
 
     private String name;           // 場地名稱
 
     private String category;       // 分類：學校、私人場地、運動中心
 
-    private Integer sportType;     // 運動類型 (SMALLINT)
+    private String sportType;     // 運動類型 (SMALLINT)
 
     private String address;        // 地址
 
@@ -38,5 +37,12 @@ public class CourtInfoPo {
     private OffsetDateTime createdAt; // 建立時間 (TIMESTAMPTZ)
 
     private OffsetDateTime updatedAt; // 更新時間 (TIMESTAMPTZ)
+
+    @PrePersist
+    public void prePersist() {
+        if (this.courtId == null) {
+            this.courtId = io.hypersistence.tsid.TSID.Factory.getTsid().toString();
+        }
+    }
 
 }

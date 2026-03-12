@@ -81,9 +81,9 @@ public class CourtService {
     }
 
     @Transactional
-    public CourtRs softDelete(Integer id) {
+    public CourtRs softDelete(String courtId) {
         // 1. 查詢並直接檢查是否存在
-        CourtInfoPo courtInfoPo = courtInfoRepository.findById(id)
+        CourtInfoPo courtInfoPo = courtInfoRepository.findById(courtId)
                 .orElseThrow(() -> new BusinessException(CourtReturnCode.COURT_NOT_FOUND));
 
         // 2. 檢查是否已經是刪除狀態
@@ -96,7 +96,7 @@ public class CourtService {
         courtInfoPo.setUpdatedAt(OffsetDateTime.now());
         courtInfoRepository.save(courtInfoPo);
 
-        List<CourtOpenInfoPo> openInfos = courtOpenInfoRepository.findByCourtIdIn(List.of(id));
+        List<CourtOpenInfoPo> openInfos = courtOpenInfoRepository.findByCourtIdIn(List.of(courtId));
         List<String> imageUrls = courtImageRepository.findByCourtIdIn(List.of(courtInfoPo.getCourtId()))
                 .stream()
                 .map(CourtImagePo::getImageKey) // 假設你的圖片欄位叫 imageKey
@@ -122,24 +122,24 @@ public class CourtService {
         }
 
         // 取得當前頁面的所有場地 ID (Integer)
-        List<Integer> courtIds = poPage.getContent().stream()
+        List<String> courtIds = poPage.getContent().stream()
                 .map(CourtInfoPo::getCourtId)
                 .toList();
 
         // 2. 批次查詢「開放時間」並依照 CourtId 分群
-        Map<Integer, List<CourtOpenInfoPo>> openTimeMap = courtOpenInfoRepository.findByCourtIdIn(courtIds)
+        Map<String, List<CourtOpenInfoPo>> openTimeMap = courtOpenInfoRepository.findByCourtIdIn(courtIds)
                 .stream()
                 .collect(Collectors.groupingBy(CourtOpenInfoPo::getCourtId));
 
         // 3. 批次查詢「圖片」並依照 CourtId 分群
         // 注意：請確認 imageMap 的 Key 型別是否與 courtIds 一致 (Integer)
-        Map<Integer, List<CourtImagePo>> imageMap = courtImageRepository.findByCourtIdIn(courtIds)
+        Map<String, List<CourtImagePo>> imageMap = courtImageRepository.findByCourtIdIn(courtIds)
                 .stream()
-                .collect(Collectors.groupingBy(img -> img.getCourtId().intValue()));
+                .collect(Collectors.groupingBy(img -> img.getCourtId()));
 
         // 4. 開始組裝 (利用 Page.map)
         return poPage.map(po -> {
-            Integer id = po.getCourtId();
+            String id = po.getCourtId();
 
             // 取得該場地的開放時間 PO 列表
             List<CourtOpenInfoPo> courtOpenPos = openTimeMap.getOrDefault(id, List.of());
@@ -219,33 +219,11 @@ public class CourtService {
         };
     }
 
-    public static CourtRs from(CourtInfoPo po, List<CourtOpenInfoPo> openPos, List<String> imageUrls) {
-        return new CourtRs(
-                po.getCourtId(),
-                po.getName(),
-                po.getCategory(),
-                po.getSportType(),
-                po.getAddress(),
-                po.getDescription(),
-                imageUrls, // 如果是刪除或新增，這裡傳 List.of() 或 null
-                po.getStatus(),
-                po.getCreatedAt(),
-                openPos == null ? List.of() : openPos.stream().map(o ->
-                        new CourtRs.OpenTimeRs(
-                                o.getDayOfWeek(),
-                                o.getIsOpen(),
-                                o.getOpenTime().toString(),
-                                o.getCloseTime().toString()
-                        )
-                ).toList()
-        );
-    }
-
     /**
      * 更新
      */
     @Transactional
-    public CourtRs update(Integer courtId, UpdateCourtRq rq) {
+    public CourtRs update(String courtId, UpdateCourtRq rq) {
         // 1. 驗證場地是否存在
         CourtInfoPo po = courtInfoRepository.findById(courtId)
                 .orElseThrow(() -> new BusinessException(CourtReturnCode.COURT_NOT_FOUND));
@@ -285,7 +263,7 @@ public class CourtService {
     /**
      * 差集同步圖片邏輯：只針對變動的部分進行資料庫操作
      */
-    private void syncCourtImages(Integer courtId, List<String> requestKeys) {
+    private void syncCourtImages(String courtId, List<String> requestKeys) {
         // 1. 確保前端傳入的 Key 是唯一的，避免重複處理
         Set<String> uniqueRequestKeys = (requestKeys == null) ? new HashSet<>() : new HashSet<>(requestKeys);
 

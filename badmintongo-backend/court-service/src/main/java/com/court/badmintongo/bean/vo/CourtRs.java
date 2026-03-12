@@ -2,19 +2,22 @@ package com.court.badmintongo.bean.vo;
 
 import com.court.badmintongo.bean.po.CourtInfoPo;
 import com.court.badmintongo.bean.po.CourtOpenInfoPo;
+import com.court.badmintongo.constant.SystemEnum;
 
 import java.time.OffsetDateTime;
 import java.util.List;
 
 public record CourtRs(
-        Integer courtId,
+        String courtId,
         String name,
         String category,
-        Integer sportType,
+        String categoryLabel,
+        String sportType,
         String address,
         String description,
         List<String> imageUrls,        // 查詢用，新增/刪除時可為空
         Integer status,
+        String statusLabel,
         OffsetDateTime createdAt,
         List<OpenTimeRs> openTimes     // 統一命名
 ) {
@@ -33,11 +36,13 @@ public record CourtRs(
                 po.getCourtId(),
                 po.getName(),
                 po.getCategory(),
+                SystemEnum.CourtCategory.getDescByCode(po.getCategory()),
                 po.getSportType(),
                 po.getAddress(),
                 po.getDescription(),
                 imageUrls != null ? imageUrls : List.of(),
                 po.getStatus(),
+                SystemEnum.CourtStatus.getDescByCode(po.getStatus()),
                 po.getCreatedAt(),
                 openPos == null ? List.of() : openPos.stream().map(o ->
                         new OpenTimeRs(

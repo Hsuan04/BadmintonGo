@@ -26,9 +26,9 @@ public class CreateCourtRq {
     private String category;
 
     @Schema(description = "運動類型 (1:羽球, 2:籃球, 3:網球)", example = "1")
-    @NotNull(message = "運動類型不能為空")
+    @NotBlank(message = "運動類型不能為空")
     @Min(value = 1, message = "不合法的運動類型")
-    private Integer sportType;
+    private String sportType;
 
     @Schema(description = "詳細地址", example = "台北市大安區羅斯福路四段1號")
     @NotBlank(message = "地址不能為空")

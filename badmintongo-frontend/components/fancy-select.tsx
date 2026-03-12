@@ -107,7 +107,7 @@ export function FancySelect(props: FancySelectProps) {
   return (
     <div className={className}>
       {label ? (
-        <label className="mb-1 block text-sm font-medium text-slate-800">
+        <label className="mb-1 pl-2 block text-sm font-medium text-slate-800">
           {label}
         </label>
       ) : null}

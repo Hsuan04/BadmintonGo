@@ -23,6 +23,7 @@
         <module>court-service</module>
         <module>session-service</module>
         <module>registration-service</module>
+        <module>auth-service</module>
     </modules>
 
     <!-- 此專案全域變數 -->

@@ -2,7 +2,6 @@ package com.court.badmintongo.config;
 
 import com.court.badmintongo.filter.JwtAuthenticationFilter;
 import com.court.badmintongo.utils.JwtUtils;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;

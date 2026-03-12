@@ -20,7 +20,7 @@ public class CourtImagePo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer imageId;
 
-    private Integer courtId;
+    private String courtId;
 
     private String imageKey; // 存 S3 裡的路徑
 

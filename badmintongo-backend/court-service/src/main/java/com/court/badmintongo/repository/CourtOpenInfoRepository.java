@@ -11,11 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
-public interface CourtOpenInfoRepository extends JpaRepository<CourtOpenInfoPo, Integer> {
+public interface CourtOpenInfoRepository extends JpaRepository<CourtOpenInfoPo, String> {
 
-    List<CourtOpenInfoPo> findByCourtId(Integer courtId);
+    List<CourtOpenInfoPo> findByCourtId(String courtId);
 
-    List<CourtOpenInfoPo> findByCourtIdIn(List<Integer> courtIds);
+    List<CourtOpenInfoPo> findByCourtIdIn(List<String> courtIds);
 
     /**
      * 根據場地 ID 刪除所有時段
@@ -23,5 +23,5 @@ public interface CourtOpenInfoRepository extends JpaRepository<CourtOpenInfoPo, 
     @Modifying
     @Transactional
     @Query("DELETE FROM CourtOpenInfoPo o WHERE o.courtId = :courtId")
-    void deleteByCourtId(@Param("courtId") Integer courtId);
+    void deleteByCourtId(@Param("courtId") String courtId);
 }

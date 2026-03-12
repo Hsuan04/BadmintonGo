@@ -73,7 +73,7 @@ export default function AdminConsoleLayout({
                         </Link>
 
                         <Link
-                            href="/admin/courts"
+                            href="/admin/court"
                             className="group flex items-center justify-between rounded-lg px-3 py-2 text-slate-700 transition hover:bg-slate-100"
                         >
               <span className="flex items-center gap-2">

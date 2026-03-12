@@ -41,6 +41,19 @@ public class SystemEnum {
 
         private final Integer code;
         private final String desc;
+
+        /**
+         * 透過 Code (1, 2, 3...) 取得中文描述 (審核中...)
+         */
+        public static String getDescByCode(Integer code) {
+            if (code == null) return "-";
+            for (CourtStatus status : values()) {
+                if (status.code.equals(code)) {
+                    return status.desc;
+                }
+            }
+            return "未知狀態";
+        }
     }
 
     @Getter
@@ -66,4 +79,27 @@ public class SystemEnum {
         private final Integer code;
         private final String desc;
     }
+
+    @Getter
+    @AllArgsConstructor
+    public enum CourtCategory {
+        SCHOOL("SCHOOL", "學校"),
+        SPORTS_CENTER("SPORTS_CENTER", "運動中心"),
+        PRIVATE("PRIVATE", "私人場地");
+
+        private final String code;
+        private final String desc;
+
+        // 最簡單、最好調試的找法
+        public static String getDescByCode(String code) {
+            if (code == null) return "-";
+            for (CourtCategory category : values()) {
+                if (category.code.equalsIgnoreCase(code)) {
+                    return category.desc;
+                }
+            }
+            return code;
+        }
+    }
+
 }

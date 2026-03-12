@@ -21,6 +21,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/courts")
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000")
 public class CourtController {
 
     private final CourtService courtService;
@@ -38,12 +39,12 @@ public class CourtController {
 
     /**
      * 2. 刪除球場
-     * @param id 場地id
+     * @param courtId 場地id
      */
     @Operation(summary = "deleteCourt", description = "update court status to 4")
     @DeleteMapping("/{id}")
-    public ResponseEntity<Result<CourtRs>> deleteCourt(@PathVariable Integer id) {
-        CourtRs deletedCourt = courtService.softDelete(id);
+    public ResponseEntity<Result<CourtRs>> deleteCourt(@PathVariable String courtId) {
+        CourtRs deletedCourt = courtService.softDelete(courtId);
         return ResponseEntity.ok(Result.success(deletedCourt));
     }
 
@@ -52,7 +53,7 @@ public class CourtController {
      * 路徑帶上 ID，Body 帶上要修改的內容
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Result<CourtRs>> update(@PathVariable Integer id, @RequestBody UpdateCourtRq request) {
+    public ResponseEntity<Result<CourtRs>> update(@PathVariable String id, @RequestBody UpdateCourtRq request) {
         return ResponseEntity.ok(Result.success(courtService.update(id, request)));
     }
 

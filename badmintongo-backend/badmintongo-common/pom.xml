@@ -11,17 +11,11 @@
     </parent>
 
     <groupId>com.badmintongo</groupId>
-    <artifactId>common-service</artifactId>
-    <name>common-service</name>
-    <description>Common library for AOP, Exceptions, and Utilities</description>
+    <artifactId>badmintongo-common</artifactId>
+    <name>badmintongo-common</name>
+    <description>Common library for all service</description>
 
     <dependencies>
-        <!-- badmintongo-common(自定義 Library) -->
-        <dependency>
-            <groupId>com.badmintongo</groupId>
-            <artifactId>badmintongo-common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <!-- springboot web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -47,21 +41,11 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
         </dependency>
-        <!-- AWS S3 -->
-        <dependency>
-            <groupId>software.amazon.awssdk</groupId>
-            <artifactId>s3</artifactId>
-        </dependency>
         <!-- TSID -->
         <dependency>
             <groupId>io.hypersistence</groupId>
             <artifactId>hypersistence-tsid</artifactId>
             <version>2.1.4</version>
-        </dependency>
-        <!-- Redis -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -79,21 +63,11 @@
             <version>0.11.5</version>
             <scope>runtime</scope>
         </dependency>
-        <!-- PostgreSQL -->
-        <dependency>
-            <groupId>org.postgresql</groupId>
-            <artifactId>postgresql</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt-jackson</artifactId>
             <version>0.11.5</version>
             <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
     </dependencies>
 </project>

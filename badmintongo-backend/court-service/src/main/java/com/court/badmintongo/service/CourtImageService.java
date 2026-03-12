@@ -26,7 +26,7 @@ public class CourtImageService {
     private String bucketName;
 
     @Transactional
-    public void uploadCourtImages(Integer courtId, MultipartFile[] files) {
+    public void uploadCourtImages(String courtId, MultipartFile[] files) {
         for (MultipartFile file : files) {
             // 1. 生成唯一檔案 Key (例如: courts/1/uuid_filename.jpg)
             String fileName = "courts/" + courtId + "/" + UUID.randomUUID() + "_" + file.getOriginalFilename();

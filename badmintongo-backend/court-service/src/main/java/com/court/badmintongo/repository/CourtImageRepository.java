@@ -13,9 +13,9 @@ import java.util.List;
 @Repository
 public interface CourtImageRepository extends JpaRepository<CourtImagePo, Integer> {
 
-    List<CourtImagePo> findByCourtId(Integer courtId);
+    List<CourtImagePo> findByCourtId(String courtId);
 
-    List<CourtImagePo> findByCourtIdIn(List<Integer> courtId);
+    List<CourtImagePo> findByCourtIdIn(List<String> courtId);
 
     /**
      * 刪除某個場地中指定的複數圖片紀錄
@@ -23,5 +23,5 @@ public interface CourtImageRepository extends JpaRepository<CourtImagePo, Intege
     @Modifying
     @Transactional
     @Query("DELETE FROM CourtImagePo i WHERE i.courtId = :courtId AND i.imageKey IN :imageKeys")
-    void deleteByCourtIdAndImageKeyIn(@Param("courtId") Integer courtId, @Param("imageKeys") List<String> imageKeys);
+    void deleteByCourtIdAndImageKeyIn(@Param("courtId") String courtId, @Param("imageKeys") List<String> imageKeys);
 }
