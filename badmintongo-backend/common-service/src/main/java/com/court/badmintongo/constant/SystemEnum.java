@@ -19,6 +19,21 @@ public class SystemEnum {
 
     @Getter
     @AllArgsConstructor
+    public enum UserRole {
+        ADMIN("ROLE_ADMIN", "管理者"),
+        MEMBER("ROLE_MEMBER", "正式會員"),
+        GUEST("ROLE_GUEST", "訪客");
+
+        private final String code;
+        private final String desc;
+
+        public String getShortName() {
+            return this.code.replace("ROLE_", "");
+        }
+    }
+
+    @Getter
+    @AllArgsConstructor
     public enum CourtStatus {
         UNDER_REVIEW(1, "審核中"),
         OPEN(2, "開放中"),

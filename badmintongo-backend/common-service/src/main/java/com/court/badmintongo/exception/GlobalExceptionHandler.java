@@ -3,10 +3,15 @@ package com.court.badmintongo.exception;
 import com.court.badmintongo.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestControllerAdvice
 @Slf4j
@@ -55,5 +60,15 @@ public class GlobalExceptionHandler {
     public Result<Void> handleBusinessException(BusinessException e) {
         log.warn("[業務異常] 錯誤代碼: {}, 原因: {}", e.getCode(), e.getMessage());
         return Result.error(e.getCode(), e.getMessage());
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<?> handleBadCredentialsException(BadCredentialsException e) {
+        Map<String, Object> errorRs = new HashMap<>();
+        errorRs.put("success", false);
+        errorRs.put("message", "wrong account / email or password");
+        errorRs.put("code", 401);
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorRs);
     }
 }
