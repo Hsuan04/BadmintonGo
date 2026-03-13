@@ -73,7 +73,6 @@ export default function CourtsListPage() {
     useEffect(() => {
         const fetchAllOptions = async () => {
             try {
-                // Promise.all 同時發出三個請求
                 const [catRes, sportRes, statRes] = await Promise.all([
                     fetch('http://localhost:8086/api/common/config/COURT_CATEGORY').then(res => res.json()),
                     fetch('http://localhost:8086/api/common/config/SPORT_TYPE').then(res => res.json()),
@@ -209,7 +208,7 @@ export default function CourtsListPage() {
                     </p>
                 </div>
                 <Link
-                    href="/admin/courts/detail"
+                    href="/admin/court/detail"
                     className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
                 >
                     新增球場
@@ -239,9 +238,9 @@ export default function CourtsListPage() {
                     />
                 </div>
 
-                {/* 1. 球場類別 - 套用 FancySelect */}
+                {/* 球場類別 */}
                 <FancySelect
-                    label="球場類別"
+                    label="場館類型"
                     options={categoryOptions}
                     value={categoryFilter}
                     onChange={(val) => {
@@ -252,7 +251,7 @@ export default function CourtsListPage() {
                     clearable
                 />
 
-                {/* 2. 運動類型 - 套用 FancySelect */}
+                {/* 運動類型  */}
                 <FancySelect
                     label="運動類型"
                     options={sportTypeOptions}
@@ -265,9 +264,9 @@ export default function CourtsListPage() {
                     clearable
                 />
 
-                {/* 3. 狀態 - 套用 FancySelect */}
+                {/* 狀態 */}
                 <FancySelect
-                    label="狀態"
+                    label="場館狀態"
                     options={statusOptions}
                     value={statusFilter}
                     onChange={(val) => {

@@ -52,7 +52,7 @@ This project utilizes a **Monorepo** structure, demonstrating proficiency in ful
 
 1. **Docker**:
    start:"docker-compose up -d"
-   shutdown:"docker-compose down -v"
+   shutdown:"docker-compose down"
 ---
 
 ### 📂 Project Structure
