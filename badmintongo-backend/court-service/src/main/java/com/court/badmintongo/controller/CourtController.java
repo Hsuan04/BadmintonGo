@@ -5,9 +5,11 @@ import com.court.badmintongo.bean.vo.CreateCourtRq;
 import com.court.badmintongo.bean.vo.UpdateCourtRq;
 import com.court.badmintongo.result.Result;
 import com.court.badmintongo.service.CourtService;
+import com.court.badmintongo.utils.JsonMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/courts")
 @RequiredArgsConstructor
@@ -33,7 +36,9 @@ public class CourtController {
     @Operation(summary = "createCourt", description = "create a court information")
     @PostMapping
     public ResponseEntity<Result<CourtRs>> create(@Valid @RequestBody CreateCourtRq createCourtRq) {
+        log.info("【場地管理】-【新增球場】傳入資料 : {}", JsonMapper.toJSON(createCourtRq));
         CourtRs rs = courtService.create(createCourtRq);
+        log.info("【場地管理】-【新增球場】回傳資料 : {}", JsonMapper.toJSON(createCourtRq));
         return ResponseEntity.status(HttpStatus.CREATED).body(Result.success(rs));
     }
 

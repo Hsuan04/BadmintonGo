@@ -166,12 +166,6 @@ export default function CourtsListPage() {
     };
 
     const currentContent = data?.content ?? [];
-    const getSportTypeLabel = (key: string | undefined) => {
-        if (!key) return "-";
-        // 從 fetch 來的 sportTypeOptions 裡找對應的選項
-        const option = sportTypeOptions.find(opt => opt.value === key);
-        return option ? option.label : key; // 如果找不到，就顯示原本的 key
-    };
 
     const openDeleteDialog = (court: CourtItem) => {
         setConfirmConfig({
@@ -214,7 +208,7 @@ export default function CourtsListPage() {
                     </p>
                 </div>
                 <Link
-                    href="http://localhost:3000/admin/court/detail/new"
+                    href="/badmintongo-frontend/app/admin-1/court/detail"
                     className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
                 >
                     新增球場
@@ -297,7 +291,7 @@ export default function CourtsListPage() {
                         <FancySelect
                             options={[
                                 {value: "name", label: "球場名稱"},
-                                {value: "category", label: "場館類型"},
+                                {value: "category", label: "類別"},
                                 {value: "sportType", label: "運動類型"},
                                 {value: "status", label: "狀態"},
                             ]}
@@ -331,7 +325,7 @@ export default function CourtsListPage() {
                                 球場名稱
                             </th>
                             <th className="whitespace-nowrap px-4 py-2 text-left text-xs font-medium uppercase tracking-[0.12em] text-slate-500">
-                                場館類型
+                                類別
                             </th>
                             <th className="whitespace-nowrap px-4 py-2 text-left text-xs font-medium uppercase tracking-[0.12em] text-slate-500">
                                 運動類型
@@ -372,14 +366,14 @@ export default function CourtsListPage() {
 
                         {/* 2. 資料列區 */}
                         {!loading && !error && currentContent.map((court, index) => {
-                            const courtId = court.courtId || index;
+                            const uniqueKey = court.courtId || index;
 
                             return (
-                                <tr key={courtId} className="hover:bg-slate-50/80">
+                                <tr key={uniqueKey} className="hover:bg-slate-50/80">
                                     {/* 第一欄：編輯按鈕 */}
                                     <td className="px-3 py-2.5">
                                         <Link
-                                            href={`/admin-1/courts/detail?id=${courtId}`}
+                                            href={`/admin-1/courts/detail?id=${uniqueKey}`}
                                             className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-slate-200 bg-white text-xs text-slate-600 hover:bg-slate-100 transition-colors"
                                         >
                                             ✎
@@ -388,7 +382,7 @@ export default function CourtsListPage() {
 
                                     <td className="whitespace-nowrap px-4 py-2.5">
                                         <Link
-                                            href={`/admin-1/courts/detail?id=${courtId}`}
+                                            href={`/admin-1/courts/detail?id=${uniqueKey}`}
                                             className="text-sm font-medium text-blue-600 hover:text-blue-700"
                                         >
                                             {court.name}
@@ -400,7 +394,7 @@ export default function CourtsListPage() {
                                     </td>
 
                                     <td className="px-4 py-2.5 text-sm text-slate-500">
-                                        {getSportTypeLabel(court.sportType)}
+                                        {court.sportType ?? "-"}
                                     </td>
 
                                     <td className="px-4 py-2.5 text-sm text-slate-500">

@@ -6,12 +6,14 @@ import com.court.badmintongo.bean.po.CourtOpenInfoPo;
 import com.court.badmintongo.bean.vo.CourtRs;
 import com.court.badmintongo.bean.vo.CreateCourtRq;
 import com.court.badmintongo.bean.vo.UpdateCourtRq;
+import com.court.badmintongo.constant.SystemEnum.CourtStatus;
 import com.court.badmintongo.enums.CourtReturnCode;
 import com.court.badmintongo.exception.BusinessException;
 import com.court.badmintongo.mapper.CourtMapper;
 import com.court.badmintongo.repository.CourtImageRepository;
 import com.court.badmintongo.repository.CourtInfoRepository;
 import com.court.badmintongo.repository.CourtOpenInfoRepository;
+import io.hypersistence.tsid.TSID;
 import jakarta.persistence.criteria.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.domain.Specification;
@@ -49,12 +51,14 @@ public class CourtService {
 
         // 2. 建立主表 PO (使用 Builder 代替 BeanUtils)
         CourtInfoPo courtPo = CourtInfoPo.builder()
+                .courtId(TSID.fast().toString())
                 .name(courtRq.getName())
                 .category(courtRq.getCategory())
                 .sportType(courtRq.getSportType())
                 .address(courtRq.getAddress())
+                .address(courtRq.getUrl())
                 .description(courtRq.getDescription())
-                .status(1)   // 預設(審核中)
+                .status(CourtStatus.UNDER_REVIEW.getCode())   // 預設(審核中)
                 .createdAt(OffsetDateTime.now())
                 .build();
 
@@ -65,6 +69,7 @@ public class CourtService {
         if (courtRq.getOpenTimeList() != null) {
             List<CourtOpenInfoPo> openPoList = courtRq.getOpenTimeList().stream().map(openBo ->
                     CourtOpenInfoPo.builder()
+                            .id(TSID.fast().toString())
                             .courtId(savedCourt.getCourtId())
                             .dayOfWeek(openBo.getDayOfWeek())
                             .isOpen(openBo.getIsOpen())

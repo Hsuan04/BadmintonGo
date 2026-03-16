@@ -51,8 +51,8 @@ This project utilizes a **Monorepo** structure, demonstrating proficiency in ful
 ### How to start the backend service
 
 1. **Docker**:
-   start:"docker-compose up -d"
-   shutdown:"docker-compose down"
+   start:"docker-compose start"
+   shutdown:"docker-compose stop"
 ---
 
 ### 📂 Project Structure

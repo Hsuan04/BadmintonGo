@@ -21,10 +21,12 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html").permitAll()      // 1. Swagger
-                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/courts/**").permitAll()        // 2. 球場查詢 (GET)：所有人都可以
-                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/courts/**").hasRole("ADMIN")  // 3. 球場的新增 (POST):更新 (PUT)、刪除 (DELETE)：只有 ADMIN 可以
-                        .requestMatchers(org.springframework.http.HttpMethod.PUT, "/api/courts/**").hasRole("ADMIN")   // 4. 球場的新更新 (PUT):ADMIN 可以
-                        .requestMatchers(org.springframework.http.HttpMethod.DELETE, "/api/courts/**").hasRole("ADMIN")// 5. 球場的刪除 (DELETE): ADMIN 可以
+                        .requestMatchers("/api/courts/**").permitAll()
+                        .requestMatchers("/api/common/**").permitAll()
+//                        .requestMatchers(org.springframework.http.HttpMethod.GET, "/api/courts/**").permitAll()        // 2. 球場查詢 (GET)：所有人都可以
+//                        .requestMatchers(org.springframework.http.HttpMethod.POST, "/api/courts/**").hasRole("ADMIN")  // 3. 球場的新增 (POST):更新 (PUT)、刪除 (DELETE)：只有 ADMIN 可以
+//                        .requestMatchers(org.springframework.http.HttpMethod.PUT, "/api/courts/**").hasRole("ADMIN")   // 4. 球場的新更新 (PUT):ADMIN 可以
+//                        .requestMatchers(org.springframework.http.HttpMethod.DELETE, "/api/courts/**").hasRole("ADMIN")// 5. 球場的刪除 (DELETE): ADMIN 可以
                         .anyRequest().authenticated());  // 其他都需要登入
         return http.build();
     }
