@@ -24,4 +24,12 @@ public interface CourtImageRepository extends JpaRepository<CourtImagePo, Intege
     @Transactional
     @Query("DELETE FROM CourtImagePo i WHERE i.courtId = :courtId AND i.imageKey IN :imageKeys")
     void deleteByCourtIdAndImageKeyIn(@Param("courtId") String courtId, @Param("imageKeys") List<String> imageKeys);
+
+    /**
+     * 刪除某個場地中的圖片
+     */
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM CourtImagePo i WHERE i.courtId = :courtId")
+    void deleteByCourtId(@Param("courtId") String courtId);
 }

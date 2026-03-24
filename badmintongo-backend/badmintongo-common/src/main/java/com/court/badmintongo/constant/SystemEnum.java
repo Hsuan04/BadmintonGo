@@ -37,7 +37,8 @@ public class SystemEnum {
     public enum CourtStatus {
         UNDER_REVIEW(1, "審核中"),
         OPEN(2, "開放中"),
-        CLOSED(3, "關閉中");
+        CLOSED(3, "關閉中"),
+        DELETED(4, "已刪除");
 
         private final Integer code;
         private final String desc;

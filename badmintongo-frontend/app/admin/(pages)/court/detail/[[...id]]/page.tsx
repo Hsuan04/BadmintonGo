@@ -1,12 +1,14 @@
  "use client";
 
-import {useEffect, useState} from "react";
+import {useEffect, useState, useRef} from "react";
 import {useParams, useRouter} from "next/navigation";
 import { FancySelect, type SelectOption } from "@/components/fancy-select";
 import TimePicker, { type TimeValue } from "@/components/time-picker";
- import { today, getLocalTimeZone, parseDate, CalendarDate } from "@internationalized/date";
+import { today, getLocalTimeZone, parseDate, CalendarDate } from "@internationalized/date";
+ import { ConfirmModal } from "@/components/confirm-modal";
 
-type OpenTimeItem = {
+
+ type OpenTimeItem = {
   dayOfWeek: number;
   isOpen: boolean;
   openTime: string;
@@ -33,9 +35,9 @@ const dayOfWeekOptions: { value: number; label: string }[] = [
 export default function CourtDetailPage() {
     const params = useParams();
     const router = useRouter();
-    const id = params.id;  //從url取得id值
-    const isEditMode = Boolean(id && id !== "new");
-    const courtId = isEditMode ? id : null;
+    const idParams = params?.id; // 2. 從 params 中取出 id
+    const courtId = Array.isArray(idParams) ? idParams[0] : idParams; // 3. 處理 Optional Catch-all (如果是 [[...id]] 會是陣列)
+    const isEditMode = Boolean(courtId && courtId !== "new");
 
     const [name, setName] = useState("");
     const [category, setCategory] = useState("");
@@ -64,6 +66,9 @@ export default function CourtDetailPage() {
     const [saving, setSaving] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
+    const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [isUploadWarningOpen, setIsUploadWarningOpen] = useState(false);
 
     // YYYY-MM-DD 字串轉為 CalendarDate 物件
     const stringToCalendarDate = (dateStr: string) => {
@@ -79,12 +84,8 @@ export default function CourtDetailPage() {
         return date.toString(); // 回傳 "YYYY-MM-DD"
     };
 
+    //取得下拉選單
     useEffect(() => {
-
-        if (isEditMode) {
-            fetch(`http://localhost:8086/api/courts/${courtId}`)
-        }
-
         const fetchAllOptions = async () => {
             try {
                 const [catRes, sportRes, statRes] = await Promise.all([
@@ -92,41 +93,43 @@ export default function CourtDetailPage() {
                     fetch('http://localhost:8086/api/common/config/SPORT_TYPE').then(res => res.json()),
                     fetch('http://localhost:8086/api/common/config/COURT_STATUS').then(res => res.json()),
                 ]);
-
-                if (catRes.code !== "200" || sportRes.code !== "200" || statRes.code !== "200") {
-                    throw new Error("部分選單資料載入異常");
-                }
-
                 setCategoryOptions(catRes.data);
                 setSportTypeOptions(sportRes.data);
-
-                // 修正點：確保 opt.value 轉為字串進行匹配
-                const statusWithIcons = statRes.data.map((opt: SelectOption) => {
-                    const val = String(opt.value);
-                    const colorMap: Record<string, string> = {
-                        "1": "bg-blue-500",    // 審核中
-                        "2": "bg-emerald-500", // 開放
-                        "3": "bg-amber-500",   // 關閉
-                        "4": "bg-rose-500",    // 已刪除
-                    };
-
-                    return {
-                        ...opt,
-                        icon: (
-                            <span className={`flex h-2 w-2 shrink-0 rounded-full ${colorMap[val] || "bg-slate-400"}`} />
-                        ),
-                    };
-                });
-
+                const statusWithIcons = statRes.data.map((opt: SelectOption) => ({ ...opt /* ...icon logic */ }));
                 setStatusOptions(statusWithIcons);
-
-            } catch (err) {
-                console.error("初始化選單失敗:", err);
-            }
+            } catch (err) { console.error("初始化選單失敗:", err); }
         };
-
         fetchAllOptions();
     }, []);
+
+    useEffect(() => {
+        if (!isEditMode || !courtId) return;
+
+        const fetchCourtDetail = async () => {
+            try {
+                const token = localStorage.getItem("token");
+                const res = await fetch(`http://localhost:8082/api/court/${courtId}`, {
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+                const json = await res.json();
+
+                if (json.code === "200") {
+                    const d = json.data;
+                    setName(d.name || "");
+                    setCategory(String(d.category) || "");
+                    setSportType(String(d.sportType) || "");
+                    setStatus(String(d.status) || "");
+                    setAddress(d.address || "");
+                    setUrl(d.url || "");
+                    setDescription(d.description || "");
+                    if (d.openTimes) setOpenTimeList(d.openTimes);
+                    if (d.holidays) setFixedHolidays(d.holidays);
+                    if (d.imageUrls) setPreviewUrls(d.imageUrls);
+                }
+            } catch (err) { setError("載入詳情失敗"); }
+        };
+        fetchCourtDetail();
+    }, [courtId, isEditMode]);
 
     const handleUpdateOpenTime = (
         index: number,
@@ -246,7 +249,7 @@ export default function CourtDetailPage() {
         const trimmedCategory = category.trim();
         const trimmedAddress = address.trim();
 
-        const token = localStorage.getItem("accessToken");
+        const token = localStorage.getItem("token");
 
         if (!trimmedName || !trimmedCategory || !sportType || !trimmedAddress) {
             setError("請填寫所有標示 * 的必填欄位。");
@@ -257,22 +260,22 @@ export default function CourtDetailPage() {
 
         try {
             // 1. 根據模式決定 API 路徑與方法
-            const apiUrl = isEditMode ? `http://localhost:8082/api/courts/${courtId}` : "http://localhost:8082/api/courts";
+            const apiUrl = isEditMode ? `http://localhost:8082/api/court/${courtId}` : "http://localhost:8082/api/court";
             const method = isEditMode ? "PUT" : "POST";
 
             const payload = {
                 name: trimmedName,
                 category: trimmedCategory,
                 sportType: sportType,
-                status: status,
+                status: status ? Number(status) : 1,
                 address: trimmedAddress,
                 url: url.trim(),
                 description: description.trim(),
                 openTimeList: openTimeList.map((item) => ({
                     dayOfWeek: item.dayOfWeek,
                     isOpen: item.isOpen,
-                    openTime: item.openTime,
-                    closeTime: item.closeTime,
+                    openTime: item.openTime.length === 5 ? `${item.openTime}:00` : item.openTime,
+                    closeTime: item.closeTime.length === 5 ? `${item.closeTime}:00` : item.closeTime,
                 })),
                 fixedHolidayList: fixedHolidays
                     .filter((h) => h.date)
@@ -282,6 +285,12 @@ export default function CourtDetailPage() {
                         startTime: h.startTime || null,
                         endTime: h.endTime || null,
                     })),
+                imageKeys: previewUrls
+                    .filter(url => !url.startsWith("blob:")) // 只留下 S3 的網址
+                    .map(url => {
+                        const parts = url.split('?')[0].split('/');
+                        return parts.slice(-2).join('/'); // 取得 "courtId/uuid_name.jpg"
+                    })
             };
 
             const response = await fetch(apiUrl, {
@@ -317,7 +326,7 @@ export default function CourtDetailPage() {
 
                 formData.append("primaryIndex", primaryIndex.toString());
 
-                const uploadRes = await fetch(`http://localhost:8082/api/courts/${finalCourtId}/images`, {
+                const uploadRes = await fetch(`http://localhost:8082/api/court/${finalCourtId}/images`, {
                     method: "POST",
                     headers: { "Authorization": `Bearer ${token}` },
                     body: formData,
@@ -330,15 +339,8 @@ export default function CourtDetailPage() {
 
             setSuccess(isEditMode ? "更新成功！" : "儲存成功！");
 
-            // 3. 跳轉邏輯
-            setTimeout(() => {
-                if (!isEditMode) {
-                    router.push("/admin/courts");
-                } else {
-                    // 💡 編輯成功可以留在原地，或是視需求跳轉
-                    // router.refresh(); // 重整頁面資料
-                }
-            }, 600);
+            setSaving(false);
+            setIsSuccessModalOpen(true);
 
         } catch (err) {
             const message = err instanceof Error ? err.message : "儲存失敗，請稍後再試。";
@@ -592,7 +594,7 @@ export default function CourtDetailPage() {
                                         <td className="px-3 py-2 align-middle">
                                             <input
                                                 type="text"
-                                                value={holiday.description}
+                                                value={holiday.description || ""}
                                                 onChange={(e) => handleUpdateHoliday(index, { description: e.target.value })}
                                                 className="w-full rounded-md border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-900 shadow-sm outline-none transition focus:border-blue-500/70 focus:ring-2 focus:ring-blue-500/20"
                                                 placeholder="例如：場地維修"
@@ -620,24 +622,34 @@ export default function CourtDetailPage() {
 
                         {/* 自定義檔案選擇列 */}
                         <div className="flex items-center gap-3">
-                            <label
-                                htmlFor="files"
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    console.log("目前圖片數量:", previewUrls.length);
+                                    if (previewUrls.length > 0) {
+                                        setIsUploadWarningOpen(true); // 有舊圖，跳出自定義彈窗
+                                    } else {
+                                        fileInputRef.current?.click(); // 沒圖，直接開選擇視窗
+                                    }
+                                }}
                                 className="cursor-pointer rounded-md bg-blue-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-blue-700 shadow-sm transition-colors"
                             >
                                 選擇檔案
-                            </label>
+                            </button>
+
                             <input
                                 id="files"
+                                ref={fileInputRef}
                                 type="file"
                                 accept="image/*"
                                 multiple
                                 onChange={handleFileChange}
-                                className="hidden" // 💡 關鍵：隱藏原生 Input，因為它的「個檔案」不會同步
+                                className="hidden"
                             />
-                            {/* 💡 這裡就是你要的：直接根據 files 陣列長度顯示數字 */}
+
                             <span className="text-slate-600 font-medium">
-                {files.length > 0 ? `${files.length} 個檔案` : "未選擇任何檔案"}
-            </span>
+        {files.length > 0 ? `${files.length} 個檔案` : "未選擇任何檔案"}
+    </span>
                         </div>
 
                         <div className="text-[11px] text-slate-500">
@@ -700,7 +712,7 @@ export default function CourtDetailPage() {
                 <div className="flex items-center justify-end gap-3 pt-2">
                     <button
                         type="button"
-                        onClick={() => router.push("/admin/courts")}
+                        onClick={() => router.push("/admin/court")}
                         className="cursor-pointer rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
                     >
                         取消
@@ -714,6 +726,46 @@ export default function CourtDetailPage() {
                     </button>
                 </div>
             </form>
+            <ConfirmModal
+                isOpen={isSuccessModalOpen}
+                title="操作成功"
+                message={isEditMode ? "場地資訊已更新成功！" : "新增場地資訊成功！"}
+                onClose={() => {
+                    setIsSuccessModalOpen(false);
+                    router.push("/admin/court");
+                }}
+                buttons={[
+                    {
+                        text: "確定",
+                        variant: "primary",
+                        onClick: () => {
+                            setIsSuccessModalOpen(false);
+                            router.push("/admin/court");
+                        }
+                    }
+                ]}
+            />
+            <ConfirmModal
+                isOpen={isUploadWarningOpen}
+                title="更換圖片提醒"
+                message="重新選擇檔案將會移除目前顯示的所有圖片，是否確定繼續？"
+                onClose={() => setIsUploadWarningOpen(false)}
+                buttons={[
+                    {
+                        text: "取消",
+                        variant: "secondary",
+                        onClick: () => setIsUploadWarningOpen(false)
+                    },
+                    {
+                        text: "確定更換",
+                        variant: "danger",
+                        onClick: () => {
+                            setIsUploadWarningOpen(false);
+                            fileInputRef.current?.click();
+                        }
+                    }
+                ]}
+            />
         </div>
     );
 }

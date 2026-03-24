@@ -241,7 +241,7 @@ export default function CourtDetailPage() {
                     })),
             };
 
-            const createRes = await fetch("/api/courts", {
+            const createRes = await fetch("/api/court", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -266,7 +266,7 @@ export default function CourtDetailPage() {
                     formData.append("files", file);
                 });
 
-                const uploadRes = await fetch(`/api/courts/${courtId}/images`, {
+                const uploadRes = await fetch(`/api/court/${courtId}/images`, {
                     method: "POST",
                     body: formData,
                 });
@@ -278,7 +278,7 @@ export default function CourtDetailPage() {
 
             setSuccess("儲存成功！");
             setTimeout(() => {
-                router.push("/admin/courts");
+                router.push("/admin/court");
             }, 600);
         } catch (err) {
             const message =
@@ -593,7 +593,7 @@ export default function CourtDetailPage() {
                 <div className="flex items-center justify-end gap-3 pt-2">
                     <button
                         type="button"
-                        onClick={() => router.push("/admin/courts")}
+                        onClick={() => router.push("/admin/court")}
                         className="cursor-pointer rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
                     >
                         取消

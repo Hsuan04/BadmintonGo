@@ -20,7 +20,7 @@ public enum CourtReturnCode implements IReturnCode {
     DUPLICATE_NAME("C101", "該場地名稱已被註冊，請換個名字。"),
     COURT_NOT_FOUND("C102", "找不到指定的場地資料"),
     TIME_CONFLICT("C103", "開放時間設定衝突"),
-    ALREADY_DELETED("C104", "該場地先前已被刪除");
+    ALREADY_DELETED("C104", "該場地已經為刪除狀態");
 
 
     private final String code;

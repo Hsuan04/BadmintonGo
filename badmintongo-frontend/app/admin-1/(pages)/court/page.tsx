@@ -112,7 +112,7 @@ export default function CourtsListPage() {
             params.set("sort", sortParam);
             params.set("viewMode", "ADMIN");
 
-            const res = await fetch(`http://localhost:8082/api/courts?${params.toString()}`);
+            const res = await fetch(`http://localhost:8082/api/court?${params.toString()}`);
             if (!res.ok) {
                 throw new Error("載入球場列表失敗。");
             }
@@ -179,7 +179,7 @@ export default function CourtsListPage() {
         setIsDeleting(true); // 讓彈窗按鈕轉圈圈
         try {
             // 記得檢查你的 URL，如果是跨服務呼叫 8082，路徑要寫完整
-            const res = await fetch(`http://localhost:8082/api/courts/${confirmConfig.courtId}`, {
+            const res = await fetch(`http://localhost:8082/api/court/${confirmConfig.courtId}`, {
                 method: "DELETE",
             });
 
@@ -373,7 +373,7 @@ export default function CourtsListPage() {
                                     {/* 第一欄：編輯按鈕 */}
                                     <td className="px-3 py-2.5">
                                         <Link
-                                            href={`/admin-1/courts/detail?id=${uniqueKey}`}
+                                            href={`/admin-1/court/detail?id=${uniqueKey}`}
                                             className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-slate-200 bg-white text-xs text-slate-600 hover:bg-slate-100 transition-colors"
                                         >
                                             ✎
@@ -382,7 +382,7 @@ export default function CourtsListPage() {
 
                                     <td className="whitespace-nowrap px-4 py-2.5">
                                         <Link
-                                            href={`/admin-1/courts/detail?id=${uniqueKey}`}
+                                            href={`/admin-1/court/detail?id=${uniqueKey}`}
                                             className="text-sm font-medium text-blue-600 hover:text-blue-700"
                                         >
                                             {court.name}

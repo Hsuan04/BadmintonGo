@@ -112,7 +112,7 @@ export default function CourtsListPage() {
             params.set("sort", sortParam);
             params.set("viewMode", "ADMIN");
 
-            const res = await fetch(`http://localhost:8082/api/courts?${params.toString()}`);
+            const res = await fetch(`http://localhost:8082/api/court?${params.toString()}`);
             if (!res.ok) {
                 throw new Error("載入球場列表失敗。");
             }
@@ -184,8 +184,7 @@ export default function CourtsListPage() {
     const handleConfirmDelete = async () => {
         setIsDeleting(true); // 讓彈窗按鈕轉圈圈
         try {
-            // 記得檢查你的 URL，如果是跨服務呼叫 8082，路徑要寫完整
-            const res = await fetch(`http://localhost:8082/api/courts/${confirmConfig.courtId}`, {
+            const res = await fetch(`http://localhost:8082/api/court/${confirmConfig.courtId}`, {
                 method: "DELETE",
             });
 
@@ -214,7 +213,7 @@ export default function CourtsListPage() {
                     </p>
                 </div>
                 <Link
-                    href="http://localhost:3000/admin/court/detail/new"
+                    href="http://localhost:3000/admin/court/detail"
                     className="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700"
                 >
                     新增球場
@@ -324,9 +323,9 @@ export default function CourtsListPage() {
                     <table className="min-w-full divide-y divide-slate-200 text-sm">
                         <thead className="bg-slate-50">
                         <tr>
-                            <th className="w-10 px-3 py-2 text-left text-xs font-medium uppercase tracking-[0.12em] text-slate-500">
-                                操作
-                            </th>
+                            {/*<th className="w-10 px-3 py-2 text-left text-xs font-medium uppercase tracking-[0.12em] text-slate-500">*/}
+                            {/*    操作*/}
+                            {/*</th>*/}
                             <th className="whitespace-nowrap px-4 py-2 text-left text-xs font-medium uppercase tracking-[0.12em] text-slate-500">
                                 球場名稱
                             </th>
@@ -377,18 +376,18 @@ export default function CourtsListPage() {
                             return (
                                 <tr key={courtId} className="hover:bg-slate-50/80">
                                     {/* 第一欄：編輯按鈕 */}
-                                    <td className="px-3 py-2.5">
-                                        <Link
-                                            href={`/admin-1/courts/detail?id=${courtId}`}
-                                            className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-slate-200 bg-white text-xs text-slate-600 hover:bg-slate-100 transition-colors"
-                                        >
-                                            ✎
-                                        </Link>
-                                    </td>
+                                    {/*<td className="px-3 py-2.5">*/}
+                                    {/*    <Link*/}
+                                    {/*        href={`/admin/court/detail/${courtId}`}*/}
+                                    {/*        className="inline-flex h-7 w-7 items-center justify-center rounded-md border border-slate-200 bg-white text-xs text-slate-600 hover:bg-slate-100 transition-colors"*/}
+                                    {/*    >*/}
+                                    {/*        ✎*/}
+                                    {/*    </Link>*/}
+                                    {/*</td>*/}
 
                                     <td className="whitespace-nowrap px-4 py-2.5">
                                         <Link
-                                            href={`/admin-1/courts/detail?id=${courtId}`}
+                                            href={`/admin/court/detail/${courtId}`}
                                             className="text-sm font-medium text-blue-600 hover:text-blue-700"
                                         >
                                             {court.name}

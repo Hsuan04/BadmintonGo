@@ -22,7 +22,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-@RequestMapping("/api/courts")
+@RequestMapping("/api/court")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "http://localhost:3000")
 public class CourtController {
@@ -30,8 +30,8 @@ public class CourtController {
     private final CourtService courtService;
 
     /**
-     * 1. 新增球場
-     * Body: JSON 格式的 CourtInfoPo
+     * 新增球場 (Post)
+     * @param createCourtRq 新增球場 Request 物件
      */
     @Operation(summary = "createCourt", description = "create a court information")
     @PostMapping
@@ -43,27 +43,28 @@ public class CourtController {
     }
 
     /**
-     * 2. 刪除球場
+     * 刪除球場 (Delete)
      * @param courtId 場地id
      */
     @Operation(summary = "deleteCourt", description = "update court status to 4")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Result<CourtRs>> deleteCourt(@PathVariable String courtId) {
-        CourtRs deletedCourt = courtService.softDelete(courtId);
+    @DeleteMapping("/{courtId}")
+    public ResponseEntity<Result<CourtRs>> deleteCourt(@PathVariable("courtId") String courtId) {
+        CourtRs deletedCourt = courtService.delete(courtId);
         return ResponseEntity.ok(Result.success(deletedCourt));
     }
 
     /**
-     * 3. 更新球場 (PUT)
-     * 路徑帶上 ID，Body 帶上要修改的內容
+     * 更新球場 (Put)
+     * @param courtId 場地id
+     * @param updateCourtRq 更新球場 Request 物件
      */
-    @PutMapping("/{id}")
-    public ResponseEntity<Result<CourtRs>> update(@PathVariable String id, @RequestBody UpdateCourtRq request) {
-        return ResponseEntity.ok(Result.success(courtService.update(id, request)));
+    @PutMapping("/{courtId}")
+    public ResponseEntity<Result<CourtRs>> update(@PathVariable String courtId, @RequestBody UpdateCourtRq updateCourtRq) {
+        return ResponseEntity.ok(Result.success(courtService.update(courtId, updateCourtRq)));
     }
 
     /**
-     * 4. 條件查詢與分頁 (GET)
+     * 條件查詢與分頁 (GET)
      * params: 查詢條件
      * viewMode: 身份 todo 後續要換成 security 的身份驗證
      * pageable: 分頁筆數物件
@@ -77,6 +78,17 @@ public class CourtController {
 
         Page<CourtRs> result = courtService.searchCourts(params, viewMode, pageable);
         return ResponseEntity.ok(Result.success(result));
+    }
+
+    /**
+     * 條件查詢與分頁 (GET)
+     * @param courtId 場地id
+     */
+    @Operation(summary = "取得單一球場詳細資訊", description = "供編輯頁面或前台詳情頁使用")
+    @GetMapping("/{id}")
+    public ResponseEntity<Result<CourtRs>> getCourtDetail(@PathVariable("id") String courtId) {
+        CourtRs courtRs = courtService.getCourtDetail(courtId);
+        return ResponseEntity.ok(Result.success(courtRs));
     }
 
 }
