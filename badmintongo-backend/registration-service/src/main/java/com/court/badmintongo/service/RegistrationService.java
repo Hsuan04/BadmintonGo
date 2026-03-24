@@ -1,7 +1,6 @@
 package com.court.badmintongo.service;
 
 
-import com.court.badmintongo.constant.SystemEnum.RegisterStatus;
 import com.court.badmintongo.constant.SystemEnum.UserType;
 import com.court.badmintongo.result.Result;
 import com.court.badmintongo.utils.JsonMapper;

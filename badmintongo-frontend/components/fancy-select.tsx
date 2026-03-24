@@ -107,7 +107,7 @@ export function FancySelect(props: FancySelectProps) {
   return (
     <div className={className}>
       {label ? (
-        <label className="mb-1 block text-sm font-medium text-slate-800">
+        <label className="mb-1 pl-2 block text-sm font-medium text-slate-800">
           {label}
         </label>
       ) : null}
@@ -169,7 +169,7 @@ export function FancySelect(props: FancySelectProps) {
                     type="button"
                     key={`${opt.groupLabel ?? "opt"}-${opt.value}`}
                     onClick={() => handleSelect(opt.value)}
-                    className={`flex w-full cursor-pointer items-start gap-2 px-3 py-2 text-left text-sm transition hover:bg-blue-50 ${
+                    className={`flex w-full cursor-pointer items-center gap-2 px-3 py-2 text-left text-sm transition hover:bg-blue-50 ${
                       opt.value === value ? "bg-blue-50" : ""
                     }`}
                   >

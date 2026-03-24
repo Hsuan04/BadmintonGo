@@ -24,9 +24,8 @@ public class UpdateCourtRq {
     @Schema(description = "場地類別 (例如：室內木板、室外水泥)", example = "室內木板")
     private String category;
 
-    @Schema(description = "運動類型 (1:羽球, 2:籃球, 3:網球)", example = "1")
-    @Min(value = 1, message = "不合法的運動類型")
-    private Integer sportType;
+    @NotBlank(message = "運動類型不能為空")
+    private String sportType;
 
     @Schema(description = "詳細地址", example = "台北市大安區羅斯福路四段1號")
     private String address;
@@ -44,8 +43,12 @@ public class UpdateCourtRq {
     @Valid
     private List<OpenTimeRq> openTimeList;
 
-    @Schema(description = "場地照片 S3 Key 列表", example = "[\"courts/main.jpg\", \"courts/side.jpg\"]")
+    @Schema(description = "場地照片 S3 Key 列表", example = "[\"court/main.jpg\", \"court/side.jpg\"]")
     private List<String> imageKeys;
+
+    @Schema(description = "特殊休息日設定列表")
+    @Valid
+    private List<HolidayInfoRq> fixedHolidayList;
 
     @Data
     @Builder
@@ -70,5 +73,29 @@ public class UpdateCourtRq {
         @Schema(description = "結束營業時間 (HH:mm:ss)", example = "21:00:00")
         @Pattern(regexp = "^([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)$", message = "時間格式必須為 HH:mm:ss")
         private String closeTime;
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(description = "特殊休息日設定")
+    public static class HolidayInfoRq {
+
+        @Schema(description = "休息日期 (格式: YYYY-MM-DD)", example = "2026-04-04")
+        @NotBlank(message = "日期不能為空")
+        @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "日期格式必須為 YYYY-MM-DD")
+        private String date;
+
+        @Schema(description = "開始休息時間 (格式: HH:mm:ss，全天休息則不填)", example = "08:00:00")
+        @Pattern(regexp = "^([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)$", message = "時間格式必須為 HH:mm:ss")
+        private String startTime;
+
+        @Schema(description = "結束休息時間 (格式: HH:mm:ss，全天休息則不填)", example = "12:00:00")
+        @Pattern(regexp = "^([01]\\d|2[0-3]):([0-5]\\d):([0-5]\\d)$", message = "時間格式必須為 HH:mm:ss")
+        private String endTime;
+
+        @Schema(description = "休息說明", example = "場地歲修")
+        private String description;
     }
 }
